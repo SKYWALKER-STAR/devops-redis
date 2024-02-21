@@ -61,7 +61,7 @@ redisContext *ConnectAndLogin(char *address,int port,char *password)
 
 	printf("connect redisServer success\n");
 
-	char *cmd = "auth ";
+	char cmd[100] = "auth ";
 	strcat(cmd,password);
 
 	redisReply *reply = (redisReply *)redisCommand(context,cmd);
@@ -223,20 +223,20 @@ void getAllKeys(redisContext *context)
 
 int main(int argc,char **argv)
 {
-	if (argc != 3) {
+	if (argc < 4) {
 		printf("usage:%s:[address] [port] [password] [[dbnumer]] \n",argv[0]);
 		exit(-1);
 	}
 
-	char *address = argv[0];
-	int port = atoi(argv[1]);
-	char *password = argv[2];
+	char *address = argv[1];
+	int port = atoi(argv[2]);
+	char *password = argv[3];
 
 	int dbnumber;
 
 	/* 指定数据库编号，默认为0 */
-	if (argc == 4) {
-		dbnumber = atoi(argv[3]);
+	if (argc == 5) {
+		dbnumber = atoi(argv[4]);
 	} else {
 		dbnumber = 0;
 	}
